@@ -4,6 +4,8 @@
  * 
  * Author(s):
  *   - Ryan Kwong
+ * Version:
+ *   - 0.0.1
 *****************************************************************/
 #include <iostream>//for debugging, get rid of later
 #include <glad/glad.h>//glad for OpenGL
@@ -18,20 +20,19 @@ int main() {
 	//Initialize GLFW
 	glfwInit();
 
-
-
 	//Define version of GLFW we are using
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	GLfloat verticies[] = {
-		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
-		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
-		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,
-		-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,
-		0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,
-		0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f
+		//          Coordinates                        Colors(RGBA)
+		-0.5f, -0.5f * float(sqrt(3)) / 3,       0.0f, 0.8f, 0.3f, 0.2f,
+		0.5f, -0.5f * float(sqrt(3)) / 3,        0.0f, 0.8f, 0.3f, 0.2f,
+		0.0f, 0.5f * float(sqrt(3)) * 2 / 3,     0.0f, 1.0f, 0.6f, 0.32f,
+		-0.5f / 2, 0.5f * float(sqrt(3)) / 6,    0.0f, 0.9f, 0.45f, 0.17f,
+		0.5f / 2, 0.5f * float(sqrt(3)) / 6,     0.0f, 0.9f, 0.45f, 0.17f,
+		0.0f, -0.5f * float(sqrt(3)) / 3,        0.0f, 0.8f, 0.3f, 0.02f
 	};
 
 	GLuint indicies[] = {
@@ -68,7 +69,8 @@ int main() {
 	VBO VBO1(verticies, sizeof(verticies));
 	EBO EBO1(indicies, sizeof(indicies));
 
-	VAO1.LinkVBO(VBO1, 0);
+	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
+	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	VAO1.Unbind();
 	VBO1.Unbind();
 	EBO1.Unbind();
