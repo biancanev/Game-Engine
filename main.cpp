@@ -4,20 +4,27 @@
  * 
  * Author(s):
  *   - Ryan Kwong
- * Version:
- *   - 0.0.1
+ * Status:
+ *   - In progress: Can rendeer basic 2D objects. Currently
+ * working towards texturing. Reference video
+ * https://www.youtube.com/watch?v=45MIykWJ-C4&ab_channel=freeCodeCamp.org
 *****************************************************************/
-/**
+
+
+//Misc header files
+
 #include <iostream>//for debugging
 #include <glad/glad.h>//glad for OpenGL
 #include <GLFW/glfw3.h>//GLFW for OpenGL
 #include <stb/stb_image.h>
 
+//GFX header files
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
 
+//Engine heaer files
 #include "sfx.h"
 
 int main() {
@@ -30,6 +37,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	GLfloat verticies[] = {
+		//Coordinates(XYZ)                    Colors(RGB)
 		//          Coordinates(XYZ)           Colors(RGB)
 		-0.5f, -0.5f, 0.0f,                 0.8f, 0.3f, 0.2f,
 		-0.5f, 0.5f, 0.0f,                  0.8f, 0.3f, 0.2f,
@@ -110,17 +118,4 @@ int main() {
 	glfwTerminate();
 	//End program
 	return 0;
-}
-**/
-
-#include "sfx.h"
-
-int main() {
-	Location source = { 0.0f, 0.0f, 1.0f };
-	Location destination = { 0.0f, 0.0f, 0.0f };
-	Sound Sound1("solid.wav", source);
-	Sound1.callSpatialSound(destination, 6.0f, false);
-	destination = { 100.0f, 10.0f, 50.0f };
-	Sound1.callSpatialSound(destination, 6.0f, false);
-	//Sound1.callLocalizedSound(false);
 }
