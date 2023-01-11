@@ -7,14 +7,18 @@
  * Version:
  *   - 0.0.1
 *****************************************************************/
-#include <iostream>//for debugging, get rid of later
+/**
+#include <iostream>//for debugging
 #include <glad/glad.h>//glad for OpenGL
 #include <GLFW/glfw3.h>//GLFW for OpenGL
+#include <stb/stb_image.h>
 
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
-#include "Ebo.h"
+#include "EBO.h"
+
+#include "sfx.h"
 
 int main() {
 	//Initialize GLFW
@@ -26,19 +30,16 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	GLfloat verticies[] = {
-		//          Coordinates                        Colors(RGBA)
-		-0.5f, -0.5f * float(sqrt(3)) / 3,       0.0f, 0.8f, 0.3f, 0.2f,
-		0.5f, -0.5f * float(sqrt(3)) / 3,        0.0f, 0.8f, 0.3f, 0.2f,
-		0.0f, 0.5f * float(sqrt(3)) * 2 / 3,     0.0f, 1.0f, 0.6f, 0.32f,
-		-0.5f / 2, 0.5f * float(sqrt(3)) / 6,    0.0f, 0.9f, 0.45f, 0.17f,
-		0.5f / 2, 0.5f * float(sqrt(3)) / 6,     0.0f, 0.9f, 0.45f, 0.17f,
-		0.0f, -0.5f * float(sqrt(3)) / 3,        0.0f, 0.8f, 0.3f, 0.02f
+		//          Coordinates(XYZ)           Colors(RGB)
+		-0.5f, -0.5f, 0.0f,                 0.8f, 0.3f, 0.2f,
+		-0.5f, 0.5f, 0.0f,                  0.8f, 0.3f, 0.2f,
+		0.5f, 0.5f, 0.0f,                   1.0f, 0.6f, 0.32f,
+		0.5f, -0.5f, 0.0f,                  0.9f, 0.45f, 0.17f,
 	};
 
 	GLuint indicies[] = {
-		0, 3, 5,
-		3, 2, 4,
-		5, 4, 1
+		0, 2, 1,
+		0, 3, 2
 	};
 
 	//Create window object with size 800x800
@@ -75,6 +76,8 @@ int main() {
 	VBO1.Unbind();
 	EBO1.Unbind();
 
+	GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
+
 	//Make viewport blue
 	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 	//Clear back buffer and assign a new color
@@ -87,8 +90,9 @@ int main() {
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		shaderProgram.Activate();
+		glUniform1f(uniID, 0.5f);
 		VAO1.Bind();
-		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glfwSwapBuffers(window);
 		//Track all events
 		glfwPollEvents();
@@ -106,4 +110,17 @@ int main() {
 	glfwTerminate();
 	//End program
 	return 0;
+}
+**/
+
+#include "sfx.h"
+
+int main() {
+	Location source = { 0.0f, 0.0f, 1.0f };
+	Location destination = { 0.0f, 0.0f, 0.0f };
+	Sound Sound1("solid.wav", source);
+	Sound1.callSpatialSound(destination, 6.0f, false);
+	destination = { 100.0f, 10.0f, 50.0f };
+	Sound1.callSpatialSound(destination, 6.0f, false);
+	//Sound1.callLocalizedSound(false);
 }

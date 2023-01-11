@@ -1,5 +1,5 @@
-#ifndef basic.h
-#define basic.h
+#ifndef BASIC_CLASS_H
+#define BASIC_CLASS_H
 
 //define basic structure for storing locations
 struct Location {
@@ -48,7 +48,5 @@ class Entity {
 public:
     //track position(location, rotation, scale)
     Position pos;
-    //define basic collision
-    virtual void collision(Entity& other) = 0;
 };
 #endif
