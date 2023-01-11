@@ -2,6 +2,10 @@
 * Source file for sound effects
 *
 * This file currently has 2 sound types
+* 
+* Status:
+*  - Spatial audio is working
+*  - Localized audio has error with nullptr references
 *****************************************************************/
 #include "sfx.h"
 #include <iostream>
@@ -37,6 +41,11 @@ void Sound::callSpatialSound(Location destination, float radius, bool repeat) {
 		//create sound object
 		ISound* sound_effect = engine->play3D(file, vec3df(source.x, source.y, source.z), repeat, false, true);
 		if (sound_effect) {
+			//set range distance
+			sound_effect->setMinDistance(radius);
+			//get audio length so os can pause thread for roughly the right time;
+			int audio_length = sound_effect->getPlayLength();
+			//pause
 			sound_effect->setMinDistance(radius);
 			int audio_length = sound_effect->getPlayLength();
 			std::this_thread::sleep_for(std::chrono::milliseconds(audio_length));
